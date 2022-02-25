@@ -132,9 +132,6 @@ const App = () => {
             )
           }
         </div>
-        <div>
-          <Home />
-        </div>
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
           <a
