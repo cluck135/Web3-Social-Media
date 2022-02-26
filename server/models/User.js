@@ -1,13 +1,12 @@
 const mongoose = require("mongoose");
-const { Schema, model } = mongoose.schema;
+const { Schema, model } = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-const profileSchema = new Schema({
-    email: {
+const userSchema = new Schema({
+    username: {
         type: String,
         required: true,
-        unique: true,
-        match: [/.+@.+\..+/, 'Must match an email address!'],
+        trim: true,
     },
     password: {
         type: String,
@@ -26,10 +25,10 @@ const profileSchema = new Schema({
         type: String,
         required: false,
     },
-    nfts: [
+    posts: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'NFT',
+            ref: 'Post',
         },
     ],
 });
@@ -43,11 +42,13 @@ userSchema.pre('save', async function (next) {
     next();
   });
   
-  userSchema.methods.isCorrectPassword = async function (password) {
-    return bcrypt.compare(password, this.password);
-  };
+userSchema.methods.isCorrectPassword = async function (password) {
+return bcrypt.compare(password, this.password);
+};
+
+
   
-  const User = model('Users', userSchema);
+  const User = model('User', userSchema);
   
-  module.exports = Users;
+  module.exports = User;
 

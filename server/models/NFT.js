@@ -17,7 +17,7 @@ const nftSchema = new Schema({
         type: String,
         required: true,
     },
-}),
+});
 
 const NFT = model('NFT', nftSchema);
 
