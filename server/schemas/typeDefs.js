@@ -20,7 +20,7 @@ const typeDefs = gql`
   type Comment {
     _id: ID!
     content: String!
-    Author: User
+    author: User
   }
 
   type NFT {
