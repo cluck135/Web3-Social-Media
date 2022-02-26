@@ -39,6 +39,6 @@ const postSchema = new Schema({
   ],
 });
 
-const Posts = model('Posts', postSchema);
+const Posts = model('Post', postSchema);
 
 module.exports = Posts;
