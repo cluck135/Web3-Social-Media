@@ -28,7 +28,7 @@ const userSchema = new Schema({
     posts: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Posts',
+            ref: 'Post',
         },
     ],
 });
@@ -42,9 +42,11 @@ userSchema.pre('save', async function (next) {
     next();
   });
   
-  userSchema.methods.isCorrectPassword = async function (password) {
-    return bcrypt.compare(password, this.password);
-  };
+userSchema.methods.isCorrectPassword = async function (password) {
+return bcrypt.compare(password, this.password);
+};
+
+
   
   const User = model('User', userSchema);
   

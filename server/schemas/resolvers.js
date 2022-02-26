@@ -1,14 +1,15 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { Users, NFT, Post } = require('../models');
+const { User, NFT, Post } = require('../models');
 const { signToken } = require('../utils/auth'); 
+ 
 
 const resolvers = {
   Query: {
     users: async () => {
-      return Users.find().populate('post');
+      return User.find().populate('posts');
     },
     user: async (_, { username }) => {
-      return Users.findOne({ username }).populate('post');
+      return User.findOne({ username }).populate('posts');
     },
     posts: async (_, { username }) => {
       const params = username ? { username } : {};
@@ -19,7 +20,7 @@ const resolvers = {
     },
     me: async (_, args, context) => {
       if (context.user) {
-        return Users.findOne({ _id: context.user._id }).populate('post');
+        return User.findOne({ _id: context.user._id }).populate('post');
       }
       throw new AuthenticationError('You need to be logged in!');
     },
@@ -27,7 +28,7 @@ const resolvers = {
 
   Mutation: {
     addUser: async (_, { username, password }) => {
-      const user = await User.create({ username, username, password });
+      const user = await User.create({ username, password });
       const token = signToken(user);
       return { token, user };
     },
@@ -38,7 +39,7 @@ const resolvers = {
         throw new AuthenticationError('No user found with this username address');
       }
 
-      const correctPw = await User.isCorrectPassword(password);
+      const correctPw = await user.isCorrectPassword(password);
 
       if (!correctPw) {
         throw new AuthenticationError('Incorrect credentials');
@@ -49,6 +50,7 @@ const resolvers = {
       return { token, user };
     },
     addPost: async (_, { description }, context) => {
+      context.user = "Casen";
       if (context.user) {
         const post = await Post.create({
           description,
@@ -56,21 +58,25 @@ const resolvers = {
         });
 
         await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $addToSet: { posts: post._id } }
+          { username: "Casen" },
+          { $addToSet: { posts: post._id } },
+          {
+            new: true
+          }
         );
 
         return post;
       }
-      throw new AuthenticationError('You need to be logged in!');
+      // throw new AuthenticationError('You need to be logged in!');
     },
-    addComment: async (_, { postId, commentText }, context) => {
+    addComment: async (_, { postId, text }, context) => {
+      context.user = "Casen";
       if (context.user) {
-        return Post.findOneAndUpdate(
+        return await Post.findOneAndUpdate(
           { _id: postId },
           {
             $addToSet: {
-              comments: { text: commentText, author: context.user.username },
+              comments: { text: text, author: context.user },
             },
           },
           {
@@ -79,7 +85,7 @@ const resolvers = {
           }
         );
       }
-      throw new AuthenticationError('You need to be logged in!');
+      // throw new AuthenticationError('You need to be logged in!');
     },
     removePost: async (_, { postId }, context) => {
       if (context.user) {

@@ -14,7 +14,7 @@ const typeDefs = gql`
 
   type Post {
     _id: ID!
-    desciption: String!
+    description: String!
     nft: NFT
     comments: [Comment]
     createdAt: String
@@ -57,8 +57,8 @@ const typeDefs = gql`
     addUser( username: String!, password: String!): Auth
     login(username: String!, password: String!): Auth
     updateUser(username: String!, tagline: String!, avatar: String): Auth
-    addPost(description: String! nft: newNFT! ): Post
-    addComment(postId: ID!, commentText: String!): Post
+    addPost(description: String! nft: newNFT ): Post
+    addComment(postId: ID!, text: String!): Post
     removePost(postId: ID!): Post
     removeComment(postId: ID!, commentId: ID!): Post
   }

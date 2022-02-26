@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
 
 const postSchema = new Schema({
-  postDescription: {
+  description: {
     type: String,
     required: true,
     minlength: 1,
@@ -20,13 +20,13 @@ const postSchema = new Schema({
   },
   comments: [
     {
-      commentText: {
+      text: {
         type: String,
         required: true,
         minlength: 1,
         maxlength: 280,
       },
-      commentAuthor: {
+      author: {
         type: String,
         required: true,
       },
