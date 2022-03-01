@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import Header from "../header/header";
 import Footer from "../footer/footer";
-import { BrowserRouter as Router, Route } from "react-router-dom";
 import UserInfo from "../userInfo/userInfo";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import "../style.css";
+
+const client = new ApolloClient({
+  uri: "/graphql",
+  cache: new InMemoryCache(),
+});
 
 function App() {
   const [showUpdate, setShowUpdate] = useState(false);
@@ -23,8 +28,8 @@ function App() {
   };
 
   return (
-    <main>
-      <Router>
+    <ApolloProvider client={client}>
+      <main>
         <div id="headerBox">
           <Header
             loggedIn={loggedIn}
@@ -52,8 +57,8 @@ function App() {
           )}
         </div>
         <Footer toggleLoggedIn={toggleLoggedIn} />
-      </Router>
-    </main>
+      </main>
+    </ApolloProvider>
   );
 }
 

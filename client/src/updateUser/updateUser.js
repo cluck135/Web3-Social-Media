@@ -1,12 +1,11 @@
 import React from "react";
+import Cloudinary from "../cloudinary/cloudinary";
 
 function Update({ showUpdate, setShowUpdate, userInfo, setUserInfo }) {
   const handleChange = (event) => {
-    const { name, value } = event.target;
+    const { value } = event.target;
 
-    return name === "tagline"
-      ? setUserInfo({ ...userInfo, tagline: value })
-      : setUserInfo({ ...userInfo, avater: value });
+    return setUserInfo({ ...userInfo, tagline: value });
   };
   if (!showUpdate) {
     return null;
@@ -24,6 +23,7 @@ function Update({ showUpdate, setShowUpdate, userInfo, setUserInfo }) {
             value={userInfo.tagline}
             onChange={handleChange}
           />
+          <Cloudinary setUserInfo={setUserInfo} userInfo={userInfo} />
         </div>
         <div className="modal-footer">
           <button className="button" onClick={() => setShowUpdate(false)}>

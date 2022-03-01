@@ -82,7 +82,7 @@ button:hover {
       }
       li {
         flex: 1 0 100px;
-        align-items: center;
+        align-self: center;
         justify-content: center;
         display: inline-block;
         color: $textColor;
