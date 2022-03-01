@@ -38,14 +38,18 @@ function App() {
             <div>10 newest NFTS</div>
             <button>Make New NFT</button>
           </div>
-          <div className="userProfile">
-            <UserInfo
-              userInfo={userInfo}
-              setUserInfo={setUserInfo}
-              setShowUpdate={setShowUpdate}
-              showUpdate={showUpdate}
-            />
-          </div>
+          {loggedIn ? (
+            <div className="userProfile">
+              <UserInfo
+                userInfo={userInfo}
+                setUserInfo={setUserInfo}
+                setShowUpdate={setShowUpdate}
+                showUpdate={showUpdate}
+              />
+            </div>
+          ) : (
+            <div></div>
+          )}
         </div>
         <Footer toggleLoggedIn={toggleLoggedIn} />
       </Router>
