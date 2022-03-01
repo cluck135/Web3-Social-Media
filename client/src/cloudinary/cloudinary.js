@@ -33,7 +33,7 @@ const Cloudinary = ({ userInfo, setUserInfo }) => {
       </div>
       <div>
         <h1>Uploaded image will be displayed here</h1>
-        <img src={userInfo} alt="New Avatar" />
+        <img src={userInfo.avatar} alt="New Avatar" />
       </div>
     </div>
   );
