@@ -1,34 +1,39 @@
 import React, { useState } from "react";
+import { useQuery } from "@apollo/client";
 import Header from "../header/header";
 import Footer from "../footer/footer";
 import UserInfo from "../userInfo/userInfo";
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { QUERY_SINGLE_USER, QUERY_USERS } from "../utils/queries";
 import "../style.css";
-
-const client = new ApolloClient({
-  uri: "/graphql",
-  cache: new InMemoryCache(),
-});
 
 function App() {
   const [showUpdate, setShowUpdate] = useState(false);
-
   const [showSignup, setShowSignup] = useState(false);
-
-  const [userInfo, setUserInfo] = useState({
-    username: "default user",
-    tagline: "default tagline",
-    avatar:
-      "https://res.cloudinary.com/hokdebgd8/image/upload/v1641661830/ufvn4j2pqphlqt4eddtb.jpg",
+  // const { loading, data } = useQuery(QUERY_USERS);
+  const { loading, data } = useQuery(QUERY_SINGLE_USER, {
+    variables: {username: "casen2"}
   });
+  const setUserInfo="";
+  const userInfo = data?.user || {};
 
   const [loggedIn, setLoggedIn] = useState(false);
   const toggleLoggedIn = () => {
     setLoggedIn(!loggedIn);
   };
 
+  if (loading) {
+    return <div>Loading...</div>
+  }
   return (
-    <ApolloProvider client={client}>
+
+
+  // const [userInfo, setUserInfo] = useState({
+  //   username: "default user",
+  //   tagline: "default tagline",
+  //   avatar:
+  //     "https://res.cloudinary.com/hokdebgd8/image/upload/v1641661830/ufvn4j2pqphlqt4eddtb.jpg",
+  // });
+
       <main>
         <div id="headerBox">
           <Header
@@ -58,7 +63,6 @@ function App() {
         </div>
         <Footer toggleLoggedIn={toggleLoggedIn} />
       </main>
-    </ApolloProvider>
   );
 }
 
