@@ -1,15 +1,14 @@
-const { AuthenticationError } = require('apollo-server-express');
-const { User, NFT, Post } = require('../models');
-const { signToken } = require('../utils/auth'); 
- 
+const { AuthenticationError } = require("apollo-server-express");
+const { User, NFT, Post } = require("../models");
+const { signToken } = require("../utils/auth");
 
 const resolvers = {
   Query: {
     users: async () => {
-      return User.find().populate('posts');
+      return User.find().populate("posts");
     },
     user: async (_, { username }) => {
-      return User.findOne({ username }).populate('posts');
+      return User.findOne({ username }).populate("posts");
     },
     posts: async (_, { username }) => {
       const params = username ? { username } : {};
@@ -20,9 +19,9 @@ const resolvers = {
     },
     me: async (_, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate('post');
+        return User.findOne({ _id: context.user._id }).populate("post");
       }
-      throw new AuthenticationError('You need to be logged in!');
+      throw new AuthenticationError("You need to be logged in!");
     },
   },
 
@@ -36,13 +35,15 @@ const resolvers = {
       const user = await User.findOne({ username });
 
       if (!user) {
-        throw new AuthenticationError('No user found with this username address');
+        throw new AuthenticationError(
+          "No user found with this username address"
+        );
       }
 
       const correctPw = await user.isCorrectPassword(password);
 
       if (!correctPw) {
-        throw new AuthenticationError('Incorrect credentials');
+        throw new AuthenticationError("Incorrect credentials");
       }
 
       const token = signToken(user);
@@ -61,7 +62,7 @@ const resolvers = {
           { username: "Casen" },
           { $addToSet: { posts: post._id } },
           {
-            new: true
+            new: true,
           }
         );
 
@@ -101,7 +102,7 @@ const resolvers = {
 
         return post;
       }
-      throw new AuthenticationError('You need to be logged in!');
+      throw new AuthenticationError("You need to be logged in!");
     },
     removeComment: async (_, { postId, commentId }, context) => {
       if (context.user) {
@@ -118,7 +119,16 @@ const resolvers = {
           { new: true }
         );
       }
-      throw new AuthenticationError('You need to be logged in!');
+      throw new AuthenticationError("You need to be logged in!");
+    },
+    updateUser: async (_, { username, newTagline, newAvatar }, context) => {
+      return User.findOneAndUpdate(
+        { username: username },
+        {
+          tagline: newTagline,
+          avatar: newAvatar,
+        }
+      );
     },
   },
 };

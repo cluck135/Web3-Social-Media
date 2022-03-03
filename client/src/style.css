@@ -296,4 +296,14 @@ h2 {
 .signup .modal-footer button {
   margin: 5px;
 }
+
+#taglineInput {
+  padding: 5px;
+  margin: 5px;
+  width: 80%;
+}
+
+#imagePreview {
+  width: 250px;
+}
 /*# sourceMappingURL=style.css.map */

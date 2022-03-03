@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 
-const Cloudinary = ({ userInfo, setUserInfo }) => {
+const Cloudinary = ({ userInfo, url, setUrl }) => {
   const [image, setImage] = useState("");
-  const [url, setUrl] = useState("");
 
   const uploadImage = () => {
     const data = new FormData();
@@ -17,14 +16,14 @@ const Cloudinary = ({ userInfo, setUserInfo }) => {
     })
       .then((resp) => resp.json())
       .then((data) => {
-        setUserInfo({ ...userInfo, avatar: data.url });
+        setUrl(data.url);
       })
       .catch((err) => console.log(err));
   };
 
   return (
     <div>
-      <div>
+      <div id="cloudinary">
         <input
           type="file"
           onChange={(e) => setImage(e.target.files[0])}
@@ -33,7 +32,7 @@ const Cloudinary = ({ userInfo, setUserInfo }) => {
       </div>
       <div>
         <h1>Uploaded image will be displayed here</h1>
-        <img src={userInfo.avatar} alt="New Avatar" />
+        <img id="imagePreview" src={url} alt="New Avatar" />
       </div>
     </div>
   );

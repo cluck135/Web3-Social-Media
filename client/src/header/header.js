@@ -52,7 +52,7 @@ function Header({ userInfo, showSignup, setShowSignup }) {
       {Auth.loggedIn() ? (
         <ul>
           <li>{userInfo.username}</li>
-          <li># of NFT's Made</li>
+          <li>{userInfo.posts.length} NFT's Created</li>
           <li>
             <button>Connect Wallet</button>
           </li>
