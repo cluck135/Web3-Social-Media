@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../utils/mutations.js";
 import Signup from "../signup/signup.js";
+import NFT from "../nft/nft.js";
 import Auth from "../utils/auth.js";
 
 function Header({ userInfo, showSignup, setShowSignup }) {
@@ -50,7 +51,7 @@ function Header({ userInfo, showSignup, setShowSignup }) {
           <li>{userInfo.username}</li>
           <li># of NFT's Made</li>
           <li>
-            <button>Connect Wallet</button>
+            <NFT />
           </li>
         </ul>
       ) : (
