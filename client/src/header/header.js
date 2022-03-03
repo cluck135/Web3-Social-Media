@@ -5,7 +5,7 @@ import Signup from "../signup/signup.js";
 import Auth from "../utils/auth.js";
 
 function Header({ userInfo, showSignup, setShowSignup }) {
-  const [formState, setFormState] = useState({ username: '', password: '' });
+  const [formState, setFormState] = useState({ username: "", password: "" });
   const [login, { error, data }] = useMutation(LOGIN_USER);
 
   // update state based on form input changes
@@ -20,24 +20,28 @@ function Header({ userInfo, showSignup, setShowSignup }) {
 
   // submit form
   const handleFormSubmit = async (event) => {
-      event.preventDefault();
-      console.log(formState);
-      try {
-        const { data } = await login({
-          variables: { ...formState },
-        });
-  
-        Auth.login(data.login.token);
-      } catch (e) {
-        console.error(e);
-      }
-  
-      // clear form values
-      setFormState({
-        username: '',
-        password: '',
+    event.preventDefault();
+    console.log(formState);
+    try {
+      const { data } = await login({
+        variables: { ...formState },
       });
-    };
+
+      Auth.login(data.login.token);
+    } catch (e) {
+      console.error(e);
+    }
+
+    // clear form values
+    setFormState({
+      username: "",
+      password: "",
+    });
+  };
+  const handleLogOut = async () => {
+    localStorage.removeItem("id_token");
+    window.location.reload();
+  };
 
   return (
     <header className="header">
@@ -52,19 +56,32 @@ function Header({ userInfo, showSignup, setShowSignup }) {
           <li>
             <button>Connect Wallet</button>
           </li>
+          <li>
+            <button onClick={handleLogOut}>Logout</button>
+          </li>
         </ul>
       ) : (
         <ul>
           <form onSubmit={handleFormSubmit}>
-          <li>
-            <input type="text" name="username" placeholder="username" onChange={handleChange}></input>
-          </li>
-          <li>
-            <input type="text" name="password" placeholder="password" onChange={handleChange}></input>
-          </li>
-          <li>
-            <input type="submit" value="Login" />
-          </li>
+            <li>
+              <input
+                type="text"
+                name="username"
+                placeholder="username"
+                onChange={handleChange}
+              ></input>
+            </li>
+            <li>
+              <input
+                type="password"
+                name="password"
+                placeholder="password"
+                onChange={handleChange}
+              ></input>
+            </li>
+            <li>
+              <input type="submit" className="btn" value="Login" />
+            </li>
           </form>
           <li>
             <button onClick={() => setShowSignup(true)}>Signup</button>

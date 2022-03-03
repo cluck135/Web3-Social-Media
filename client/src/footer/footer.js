@@ -9,7 +9,6 @@ function Footer(props) {
         <a href="https://github.com/cluck135">Casen Luck</a> |{" "}
         <a href="https://github.com/tallen1985">Troy Allen</a>
       </h4>
-      <button onClick={props.toggleLoggedIn}>Toggle logged in</button>
     </div>
   );
 }
