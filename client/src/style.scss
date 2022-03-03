@@ -20,7 +20,8 @@ body {
   font-family: "Raleway", sans-serif;
 }
 
-button {
+button,
+.btn {
   border: 2px solid $borderColor;
   background-color: $headerBackground;
   border-radius: 5px;
@@ -28,7 +29,8 @@ button {
   color: $lightColor;
   transition: all 0.3s ease-in-out;
 }
-button:hover {
+button:hover,
+.btn:hover {
   background-color: $lightColor;
   color: $headerBackground;
   transition: all 0.3s ease-in-out;
@@ -202,4 +204,13 @@ h2 {
   .modal-footer button {
     margin: 5px;
   }
+}
+
+#taglineInput {
+  padding: 5px;
+  margin: 5px;
+  width: 80%;
+}
+#imagePreview {
+  width: 250px;
 }
