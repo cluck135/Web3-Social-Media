@@ -8,7 +8,7 @@ const CONTRACT_ADDRESS = "0x71964621a255F1da7ebde644F36258Cf365174dF";
 
 const Nft = () => {
     const [nftJson, setNftJson] = useState([])
-
+    
     const [currentAccount, setCurrentAccount] = useState("");
     
     const checkIfWalletIsConnected = async () => {

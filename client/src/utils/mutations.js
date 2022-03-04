@@ -41,10 +41,15 @@ export const UPDATE_USER = gql`
     }
   }
 `;
-// export const ADD_POST = gql`
-//   mutation addPost($description: String!) {
-//     addPost(description: $description) {
-//       description
-//     }
-//   }
-// `;
+export const ADD_POST = gql`
+mutation addPost($description: String! $username: String! $nft: newNFT!) {
+  addPost(description: $description username: $username nft: $nft) {
+    description
+    nft {
+      name
+      image
+      description
+    }
+  }
+}
+`;
