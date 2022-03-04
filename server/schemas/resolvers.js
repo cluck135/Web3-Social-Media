@@ -12,10 +12,10 @@ const resolvers = {
     },
     posts: async (_, { username }) => {
       const params = username ? { username } : {};
-      return Post.find(params).sort({ createdAt: -1 });
+      return Post.find(params).sort({ createdAt: -1 }).populate("nfts");
     },
     post: async (_, { postId }) => {
-      return Post.findOne({ _id: postId });
+      return Post.findOne({ _id: postId }).populare("nfts");
     },
     me: async (_, args, context) => {
       if (context.user) {
@@ -50,24 +50,34 @@ const resolvers = {
 
       return { token, user };
     },
-    addPost: async (_, { description }, context) => {
-      context.user = "Casen";
-      if (context.user) {
+    addPost: async (_, { username, nfts, description }) => {
+      const nft = await NFT.create({
+           nftName: nfts.name,
+           nftDescription: nfts.description,
+           nftImage: nfts.image,
+        });
         const post = await Post.create({
           description,
-          //nft: context.user.username,
-        });
-
+          nfts: nft._id,
+        })
         await User.findOneAndUpdate(
-          { username: "Casen" },
+          { username: username },
           { $addToSet: { posts: post._id } },
           {
             new: true,
           }
         );
 
-        return post;
-      }
+        const returnPost = {
+          ...post._doc,
+          nfts: {
+            name: nft.nftName,
+            description: nft.nftDescription,
+            image: nft.nftImage
+          }
+        }
+
+        return returnPost;
       // throw new AuthenticationError('You need to be logged in!');
     },
     addComment: async (_, { postId, text }, context) => {
