@@ -9,7 +9,7 @@ const postSchema = new Schema({
     maxlength: 280,
     trim: true,
   },
-    nfts: {
+    nft: {
         type: Schema.Types.ObjectId,
         ref: 'NFT',
     },

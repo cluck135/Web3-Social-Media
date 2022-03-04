@@ -1,19 +1,19 @@
 const { Schema, model } = require('mongoose');
 
 const nftSchema = new Schema({
-    nftName: {
+    name: {
         type: String,
         required: true,
         trim: true,
     },
-    nftDescription: {
+    description: {
         type: String,
         required: true,
         minlength: 1,
         maxlength: 280,
         trim: true,
     },
-    nftImage:{
+    image:{
         type: String,
         required: true,
     },

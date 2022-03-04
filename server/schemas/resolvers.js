@@ -12,14 +12,14 @@ const resolvers = {
     },
     posts: async (_, { username }) => {
       const params = username ? { username } : {};
-      return Post.find(params).sort({ createdAt: -1 }).populate("nfts");
+      return Post.find(params).sort({ createdAt: -1 }).populate("nft");
     },
     post: async (_, { postId }) => {
-      return Post.findOne({ _id: postId }).populare("nfts");
+      return Post.findOne({ _id: postId }).populate("nft");
     },
     me: async (_, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate("post");
+        return User.findOne({ _id: context.user._id }).populate("posts");
       }
       throw new AuthenticationError("You need to be logged in!");
     },
@@ -50,15 +50,15 @@ const resolvers = {
 
       return { token, user };
     },
-    addPost: async (_, { username, nfts, description }) => {
-      const nft = await NFT.create({
-           nftName: nfts.name,
-           nftDescription: nfts.description,
-           nftImage: nfts.image,
+    addPost: async (_, { username, nft, description }) => {
+      const newNft = await NFT.create({
+           name: nft.name,
+           description: nft.description,
+           image: nft.image,
         });
         const post = await Post.create({
           description,
-          nfts: nft._id,
+          nft: newNft._id,
         })
         await User.findOneAndUpdate(
           { username: username },
@@ -70,10 +70,8 @@ const resolvers = {
 
         const returnPost = {
           ...post._doc,
-          nfts: {
-            name: nft.nftName,
-            description: nft.nftDescription,
-            image: nft.nftImage
+          nft: {
+            ...newNft._doc
           }
         }
 
