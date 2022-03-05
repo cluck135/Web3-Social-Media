@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const QUERY_USERS = gql`
   query allUsers {
@@ -8,6 +8,9 @@ export const QUERY_USERS = gql`
       tagline
       avatar
       posts {
+        nft {
+          image
+        }
         description
         comments {
           text
@@ -26,9 +29,26 @@ export const QUERY_SINGLE_USER = gql`
       avatar
       posts {
         description
+        nft {
+          comment
+          image
+        }
         comments {
           text
         }
+      }
+    }
+  }
+`;
+
+export const GET_POSTS = gql`
+  query allPosts {
+    posts {
+      _id
+      description
+      nft {
+        description
+        image
       }
     }
   }

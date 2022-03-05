@@ -130,9 +130,9 @@ const Nft = () => {
   return (
     <div>
       <div>
-          <p>
+          {/* <p>
             Each unique. Each beautiful. Discover your NFT today.
-          </p>
+          </p> */}
           {currentAccount === "" ? renderNotConnectedContainer() : renderMintUI()}
       </div>
         {/* <a href={OPENSEA_LINK} >

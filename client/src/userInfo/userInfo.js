@@ -2,7 +2,7 @@ import React from "react";
 import Update from "../updateUser/updateUser";
 
 function userInfo(props) {
-  const { username, avatar, tagline } = props.userInfo;
+  const { username, avatar, tagline, posts } = props.userInfo;
   const makeActive = () => {
     const accordion = document.querySelector(".accordionContent");
     if (accordion.style.display === "") {
@@ -25,7 +25,9 @@ function userInfo(props) {
             <img src={avatar} alt="avatar" />
           </li>
           <li>{tagline}</li>
-          <li>Newest NFT</li>
+          <li>
+            <img src={posts[0].nft.image} alt="newest NFT" />
+          </li>
           <button onClick={() => props.setShowUpdate(true)}>
             Update User Info
           </button>

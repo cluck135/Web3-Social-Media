@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import Cloudinary from "../cloudinary/cloudinary";
 import { useMutation } from "@apollo/client";
 import { UPDATE_USER } from "../utils/mutations.js";
-import Auth from "../utils/auth";
 
 function Update({ showUpdate, setShowUpdate, userInfo }) {
   const [url, setUrl] = useState("");
-  const [update, { error, data }] = useMutation(UPDATE_USER);
+  const [update] = useMutation(UPDATE_USER);
   if (!showUpdate) {
     return null;
   }

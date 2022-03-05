@@ -228,6 +228,7 @@ h2 {
 .accordionContent li {
   list-style: none;
   padding-left: 0;
+  padding-right: 0;
 }
 
 .footer {
@@ -240,12 +241,19 @@ h2 {
   background-color: #fff;
 }
 
+@media (max-width: 950px) {
+  .modal-content {
+    width: 90%;
+  }
+}
+
 .modal-header {
   padding: 10px;
 }
 
 .modal-footer,
 .modal-title {
+  text-align: center;
   margin: 0;
 }
 
@@ -305,5 +313,45 @@ h2 {
 
 #imagePreview {
   width: 250px;
+}
+
+.loading {
+  width: 50%;
+  text-align: center;
+  margin: 25vw auto;
+  border: 5px solid black;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.postFeed {
+  width: 80%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.postFeed .postDiv {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 200px;
+          flex: 1 0 200px;
+  margin: 10px;
+  text-align: center;
+}
+
+.postFeed .postDiv img {
+  width: 200px;
 }
 /*# sourceMappingURL=style.css.map */

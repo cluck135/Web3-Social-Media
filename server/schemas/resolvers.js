@@ -5,10 +5,16 @@ const { signToken } = require("../utils/auth");
 const resolvers = {
   Query: {
     users: async () => {
-      return User.find().populate("posts");
+      return User.find().populate({
+        path: "posts",
+        populate: {
+          path: "nft",
+          model: "NFT",
+        },
+      });
     },
     user: async (_, { username }) => {
-      return User.findOne({ username }).populate("posts");
+      return User.findOne({ username }).populate("posts").populate("nfts");
     },
     posts: async (_, { username }) => {
       const params = username ? { username } : {};
@@ -52,30 +58,30 @@ const resolvers = {
     },
     addPost: async (_, { username, nft, description }) => {
       const newNft = await NFT.create({
-           name: nft.name,
-           description: nft.description,
-           image: nft.image,
-        });
-        const post = await Post.create({
-          description,
-          nft: newNft._id,
-        })
-        await User.findOneAndUpdate(
-          { username: username },
-          { $addToSet: { posts: post._id } },
-          {
-            new: true,
-          }
-        );
-
-        const returnPost = {
-          ...post._doc,
-          nft: {
-            ...newNft._doc
-          }
+        name: nft.name,
+        description: nft.description,
+        image: nft.image,
+      });
+      const post = await Post.create({
+        description,
+        nft: newNft._id,
+      });
+      await User.findOneAndUpdate(
+        { username: username },
+        { $addToSet: { posts: post._id } },
+        {
+          new: true,
         }
+      );
 
-        return returnPost;
+      const returnPost = {
+        ...post._doc,
+        nft: {
+          ...newNft._doc,
+        },
+      };
+
+      return returnPost;
       // throw new AuthenticationError('You need to be logged in!');
     },
     addComment: async (_, { postId, text }, context) => {
