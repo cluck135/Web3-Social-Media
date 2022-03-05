@@ -5,10 +5,16 @@ const { signToken } = require("../utils/auth");
 const resolvers = {
   Query: {
     users: async () => {
-      return User.find().populate("posts");
+      return User.find().populate({
+        path: "posts",
+        populate: {
+          path: "nft",
+          model: "NFT",
+        },
+      });
     },
     user: async (_, { username }) => {
-      return User.findOne({ username }).populate("posts");
+      return User.findOne({ username }).populate("posts").populate("nfts");
     },
     posts: async (_, { username }) => {
       const params = username ? { username } : {};
@@ -52,34 +58,33 @@ const resolvers = {
     },
     addPost: async (_, { username, nft, description }) => {
       const newNft = await NFT.create({
-           name: nft.name,
-           description: nft.description,
-           image: nft.image,
-        });
-        const post = await Post.create({
-          description,
-          nft: newNft._id,
-        })
-        await User.findOneAndUpdate(
-          { username: username },
-          { $addToSet: { posts: post._id } },
-          {
-            new: true,
-          }
-        );
-
-        const returnPost = {
-          ...post._doc,
-          nft: {
-            ...newNft._doc
-          }
+        name: nft.name,
+        description: nft.description,
+        image: nft.image,
+      });
+      const post = await Post.create({
+        description,
+        nft: newNft._id,
+      });
+      await User.findOneAndUpdate(
+        { username: username },
+        { $addToSet: { posts: post._id } },
+        {
+          new: true,
         }
+      );
 
-        return returnPost;
+      const returnPost = {
+        ...post._doc,
+        nft: {
+          ...newNft._doc,
+        },
+      };
+
+      return returnPost;
       // throw new AuthenticationError('You need to be logged in!');
     },
     addComment: async (_, { postId, text }, context) => {
-      context.user = "Casen";
       if (context.user) {
         return await Post.findOneAndUpdate(
           { _id: postId },
@@ -96,21 +101,17 @@ const resolvers = {
       }
       // throw new AuthenticationError('You need to be logged in!');
     },
-    removePost: async (_, { postId }, context) => {
-      if (context.user) {
-        const post = await Post.findOneAndDelete({
-          _id: postId,
-          postAuthor: context.user.username,
-        });
+    removePost: async (_, { postId, username }) => {
+      const post = await Post.findOneAndDelete({
+        _id: postId,
+      });
 
-        await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $pull: { posts: post._id } }
-        );
+      await User.findOneAndUpdate(
+        { username: username },
+        { $pull: { posts: post._id } }
+      );
 
-        return post;
-      }
-      throw new AuthenticationError("You need to be logged in!");
+      return post;
     },
     removeComment: async (_, { postId, commentId }, context) => {
       if (context.user) {

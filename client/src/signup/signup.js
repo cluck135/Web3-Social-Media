@@ -8,7 +8,7 @@ function Signup({ showSignup, setShowSignup }) {
     username: "",
     password: "",
   });
-  const [addUser, { error, data }] = useMutation(ADD_USER);
+  const [addUser] = useMutation(ADD_USER);
 
   // update state based on form input changes
   const handleChange = (event) => {

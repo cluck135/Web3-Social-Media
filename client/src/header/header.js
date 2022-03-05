@@ -7,7 +7,7 @@ import Auth from "../utils/auth.js";
 
 function Header({ userInfo, showSignup, setShowSignup }) {
   const [formState, setFormState] = useState({ username: "", password: "" });
-  const [login, { error, data }] = useMutation(LOGIN_USER);
+  const [login] = useMutation(LOGIN_USER);
 
   // update state based on form input changes
   const handleChange = (event) => {

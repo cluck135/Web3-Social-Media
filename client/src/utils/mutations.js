@@ -42,14 +42,21 @@ export const UPDATE_USER = gql`
   }
 `;
 export const ADD_POST = gql`
-mutation addPost($description: String! $username: String! $nft: newNFT!) {
-  addPost(description: $description username: $username nft: $nft) {
-    description
-    nft {
-      name
-      image
+  mutation addPost($description: String!, $username: String!, $nft: newNFT!) {
+    addPost(description: $description, username: $username, nft: $nft) {
       description
+      nft {
+        name
+        image
+        description
+      }
     }
   }
-}
+`;
+export const REMOVE_POST = gql`
+  mutation removePost($username: String!, $postId: ID!) {
+    removePost(username: $username, postId: $postId) {
+      _id
+    }
+  }
 `;

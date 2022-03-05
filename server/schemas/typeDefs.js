@@ -59,7 +59,7 @@ const typeDefs = gql`
     updateUser(username: String!, newTagline: String!, newAvatar: String): Auth
     addPost(username: String!, description: String!, nft: newNFT!): Post
     addComment(postId: ID!, text: String!): Post
-    removePost(postId: ID!): Post
+    removePost(username: String!, postId: ID!): Post
     removeComment(postId: ID!, commentId: ID!): Post
   }
 `;

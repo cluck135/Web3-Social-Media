@@ -3,15 +3,19 @@ import { useQuery } from "@apollo/client";
 import Header from "../header/header";
 import Footer from "../footer/footer";
 import UserInfo from "../userInfo/userInfo";
-import { QUERY_SINGLE_USER, QUERY_USERS } from "../utils/queries";
+import PostFeed from "../postFeed/postFeed";
+import { QUERY_USERS, GET_POSTS } from "../utils/queries";
 import "../style.css";
 import Auth from "../utils/auth";
+import MyPosts from "../myPosts/myPosts";
 
 function App() {
   const [showUpdate, setShowUpdate] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
+  const [showPostInfo, setShowPostInfo] = useState(false);
 
   const { loading, data } = useQuery(QUERY_USERS);
+  const posts = useQuery(GET_POSTS);
   let userInfo = {};
 
   const setUserInfo = "";
@@ -25,7 +29,11 @@ function App() {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="loading">
+        <h1>Loading...hold on a sec.</h1>
+      </div>
+    );
   }
   return (
     // const [userInfo, setUserInfo] = useState({
@@ -45,17 +53,23 @@ function App() {
       </div>
       <div className="mainSection">
         <div className="leftSection">
-          <div>10 newest NFTS</div>
-          <button>Make New NFT</button>
+          <PostFeed
+            posts={posts}
+            showPostInfo={showPostInfo}
+            setShowPostInfo={setShowPostInfo}
+          />
         </div>
         {Auth.loggedIn() ? (
-          <div className="userProfile">
-            <UserInfo
-              userInfo={userInfo}
-              setUserInfo={setUserInfo}
-              setShowUpdate={setShowUpdate}
-              showUpdate={showUpdate}
-            />
+          <div className="rightSection">
+            <MyPosts userPosts={userInfo.posts} username={userInfo.username} />
+            <div className="userProfile">
+              <UserInfo
+                userInfo={userInfo}
+                setUserInfo={setUserInfo}
+                setShowUpdate={setShowUpdate}
+                showUpdate={showUpdate}
+              />
+            </div>
           </div>
         ) : (
           <div></div>
