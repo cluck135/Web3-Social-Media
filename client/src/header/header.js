@@ -30,6 +30,7 @@ function Header({ userInfo, showSignup, setShowSignup }) {
 
       Auth.login(data.login.token);
     } catch (e) {
+      alert("Invalid Username or Password");
       console.error(e);
     }
 
