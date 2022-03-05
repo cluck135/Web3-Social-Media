@@ -7,6 +7,7 @@ import PostFeed from "../postFeed/postFeed";
 import { QUERY_USERS, GET_POSTS } from "../utils/queries";
 import "../style.css";
 import Auth from "../utils/auth";
+import MyPosts from "../myPosts/myPosts";
 
 function App() {
   const [showUpdate, setShowUpdate] = useState(false);
@@ -59,13 +60,16 @@ function App() {
           />
         </div>
         {Auth.loggedIn() ? (
-          <div className="userProfile">
-            <UserInfo
-              userInfo={userInfo}
-              setUserInfo={setUserInfo}
-              setShowUpdate={setShowUpdate}
-              showUpdate={showUpdate}
-            />
+          <div className="rightSection">
+            <MyPosts userPosts={userInfo.posts} username={userInfo.username} />
+            <div className="userProfile">
+              <UserInfo
+                userInfo={userInfo}
+                setUserInfo={setUserInfo}
+                setShowUpdate={setShowUpdate}
+                showUpdate={showUpdate}
+              />
+            </div>
           </div>
         ) : (
           <div></div>

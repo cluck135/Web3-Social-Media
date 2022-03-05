@@ -12,6 +12,7 @@ function PostFeed({ posts, showPostInfo, setShowPostInfo }) {
   } else {
     return (
       <div className="postFeed">
+        <h2>Newest Posts</h2>
         {posts.data.posts.slice(0, 10).map((post, index) => {
           return (
             <div className="postDiv" key={post._id}>

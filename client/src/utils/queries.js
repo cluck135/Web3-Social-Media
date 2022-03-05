@@ -8,6 +8,7 @@ export const QUERY_USERS = gql`
       tagline
       avatar
       posts {
+        _id
         nft {
           image
         }

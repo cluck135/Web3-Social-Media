@@ -26,7 +26,11 @@ function userInfo(props) {
           </li>
           <li>{tagline}</li>
           <li>
-            <img src={posts[0].nft.image} alt="newest NFT" />
+            {posts[0] ? (
+              <img src={posts[0].nft.image} alt="newest NFT" />
+            ) : (
+              <h4>No NFT's Minted</h4>
+            )}
           </li>
           <button onClick={() => props.setShowUpdate(true)}>
             Update User Info
