@@ -68,9 +68,12 @@ button:hover,
       -ms-flex-pack: center;
           justify-content: center;
   margin-top: 10px;
+  text-align: center;
 }
 
 .mainSection .rightSection .myPosts img {
+  margin: 10px auto;
+  display: block;
   width: 300px;
 }
 
@@ -367,6 +370,10 @@ h2 {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.postFeed h2 {
+  width: 100%;
 }
 
 .postFeed .postDiv {

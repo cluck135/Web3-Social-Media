@@ -55,7 +55,10 @@ button:hover,
       text-align: center;
       justify-content: center;
       margin-top: 10px;
+      text-align: center;
       img {
+        margin: 10px auto;
+        display: block;
         width: 300px;
       }
     }
@@ -250,6 +253,9 @@ h2 {
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-items: center;
+  h2 {
+    width: 100%;
+  }
   .postDiv {
     flex: 1 0 200px;
     margin: 10px;
