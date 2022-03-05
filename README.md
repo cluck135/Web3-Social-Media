@@ -42,5 +42,7 @@ Licensed under the Academic License. Copyright © 2022
 *For any additional questions, please contact the group using one of these methods: at:* 
 
 Troy Allen: GitHub: [@tallen1985](https://github.com/tallen1985), Email: [jake.allen@me.com](mailto:jake.allen@me.com)
+
 Casen Luck: GitHub: [@cluck135](https://github.com/cluck135/), Email: [casenluck@gmail.com](mailto:casenluck@gmail.com)
+
 Kathryn Neal: GitHub: [@kathrynneal221](https://github.com/kathrynneal221), Email: [kati.neal221@gmail.com](mailto:kati.neal221@gmail.com)
