@@ -12,6 +12,7 @@ function MyPosts({ userPosts, username }) {
         postId: postId,
       },
     });
+    console.log(data);
     window.location.reload();
   };
   return (

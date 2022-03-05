@@ -1,15 +1,30 @@
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import myEpikNft from '../utils/MyEpikNFT.json';
+import { useMutation } from "@apollo/client";
+import { ADD_POST } from "../utils/mutations";
 
-const OPENSEA_LINK = 'https://testnets.opensea.io/collection/squarenft-abwd6uw01l';
-const TOTAL_MINT_COUNT = 50;
 const CONTRACT_ADDRESS = "0x71964621a255F1da7ebde644F36258Cf365174dF";
 
-const Nft = () => {
-    const [nftJson, setNftJson] = useState([])
+const Nft = ({ username }) => {
+    const [addPost] = useMutation(ADD_POST);
+    const [nftJson, setNftJson] = useState('');
     
     const [currentAccount, setCurrentAccount] = useState("");
+
+    const handleMint = async (nftJson, username) => {
+      let description = prompt("Whats the description of the post");
+
+      const { data } = await addPost({
+        variables: {
+          description: description,
+          username: username,
+          nft: nftJson
+        },
+      });
+      console.log(data);
+      window.location.reload();
+    }
     
     const checkIfWalletIsConnected = async () => {
       const { ethereum } = window;
@@ -64,12 +79,13 @@ const Nft = () => {
         const signer = provider.getSigner();
         const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, myEpikNft.abi, signer);
 
-        connectedContract.on("NewEpicNFTMinted", (from, tokenId, nftBase64Json) => {
-          let base64 = nftBase64Json.split('base64,');
-          let buff = Buffer.from(base64[1], 'base64');  
-          let jsonString = buff.toString('utf-8');
-          let json = JSON.parse(jsonString);
-          setNftJson([...nftJson, json]);
+        connectedContract.on("NewEpicNFTMinted", async (from, tokenId, nftBase64Json) => {
+          let base64 = await nftBase64Json.split('base64,');
+          let buff = await Buffer.from(base64[1], 'base64');  
+          let jsonString = await buff.toString('utf-8');
+          let json = await JSON.parse(jsonString);
+          await setNftJson(json);
+          handleMint(json, username);
           console.log(from, tokenId.toNumber())
           alert(`  Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${tokenId.toNumber()}`)
         });
@@ -110,7 +126,6 @@ const Nft = () => {
     }
   }
 
-
   useEffect(() => {
     checkIfWalletIsConnected();
   }, [])
@@ -130,14 +145,8 @@ const Nft = () => {
   return (
     <div>
       <div>
-          {/* <p>
-            Each unique. Each beautiful. Discover your NFT today.
-          </p> */}
           {currentAccount === "" ? renderNotConnectedContainer() : renderMintUI()}
       </div>
-        {/* <a href={OPENSEA_LINK} >
-        <button>🌊 View Collection on OpenSea </button>
-        </a> */}
     </div>
   );
 };
