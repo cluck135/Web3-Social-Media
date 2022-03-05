@@ -9,10 +9,11 @@ const CONTRACT_ADDRESS = "0x71964621a255F1da7ebde644F36258Cf365174dF";
 const Nft = ({ username }) => {
     const [addPost] = useMutation(ADD_POST);
     const [nftJson, setNftJson] = useState('');
-    
+    const [isMinting, setIsMinting] = useState(false);
     const [currentAccount, setCurrentAccount] = useState("");
 
     const handleMint = async (nftJson, username) => {
+      setIsMinting(true);
       let description = prompt("Whats the description of the post");
 
       const { data } = await addPost({
@@ -22,8 +23,9 @@ const Nft = ({ username }) => {
           nft: nftJson
         },
       });
-      console.log(data);
-      window.location.reload();
+      // console.log(data);
+      // window.location.reload();
+      setIsMinting(false);
     }
     
     const checkIfWalletIsConnected = async () => {
@@ -84,8 +86,10 @@ const Nft = ({ username }) => {
           let buff = await Buffer.from(base64[1], 'base64');  
           let jsonString = await buff.toString('utf-8');
           let json = await JSON.parse(jsonString);
-          await setNftJson(json);
-          handleMint(json, username);
+          if(!isMinting) {
+            handleMint(json, username);
+            // setIsMinting(true);
+          }
           console.log(from, tokenId.toNumber())
           alert(`  Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${tokenId.toNumber()}`)
         });
