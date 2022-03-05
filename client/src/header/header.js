@@ -56,7 +56,7 @@ function Header({ userInfo, showSignup, setShowSignup }) {
           <li>{userInfo.username}</li>
           <li>{userInfo.posts.length} NFT's Created</li>
           <li>
-            <NFT />
+            <NFT username={userInfo.username}/>
           </li>
           <li>
             <button onClick={handleLogOut}>Logout</button>
