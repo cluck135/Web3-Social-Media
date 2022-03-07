@@ -1,9 +1,9 @@
 import React from "react";
 import PostInfo from "../postInfo/postInfo";
 
-function PostFeed({ posts, showPostInfo, setShowPostInfo }) {
+function PostFeed({ dataPosts, loadingPosts, showPostInfo, setShowPostInfo }) {
   let currentPost = 0;
-  if (posts.loading) {
+  if (loadingPosts) {
     return (
       <div>
         <h1>Loading Posts</h1>
@@ -13,7 +13,7 @@ function PostFeed({ posts, showPostInfo, setShowPostInfo }) {
     return (
       <div className="postFeed">
         <h2>Newest Posts</h2>
-        {posts.data.posts.slice(0, 10).map((post, index) => {
+        {dataPosts.slice(0, 10).map((post, index) => {
           return (
             <div className="postDiv" key={post._id}>
               <h3>{post.description}</h3>
@@ -32,7 +32,7 @@ function PostFeed({ posts, showPostInfo, setShowPostInfo }) {
           showPostInfo={showPostInfo}
           setShowPostInfo={setShowPostInfo}
           currentPost={currentPost}
-          posts={posts}
+          dataPosts={dataPosts}
         />
       </div>
     );

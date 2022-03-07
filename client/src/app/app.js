@@ -13,28 +13,36 @@ function App() {
   const [showUpdate, setShowUpdate] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const [showPostInfo, setShowPostInfo] = useState(false);
+  const [userInfo, setUserInfo] = useState({
+    username: "default user",
+    tagline: "default tagline",
+    avatar:
+      "https://res.cloudinary.com/hokdebgd8/image/upload/v1641661830/ufvn4j2pqphlqt4eddtb.jpg",
+  });  
 
-  const { loading, data } = useQuery(QUERY_USERS);
-  const posts = useQuery(GET_POSTS);
-  let userInfo = {};
+  const {loading: loadingUsers, data: dataUsers } = useQuery(QUERY_USERS);
+  const {loading: loadingPosts, data: dataPosts } = useQuery(GET_POSTS);
 
-  const setUserInfo = "";
-  if (Auth.loggedIn() && !loading) {
-    let tempUser = [];
-    const loggedInUser = Auth.getProfile();
-    tempUser = data.users.filter((user) => {
-      return user.username === loggedInUser.data.username;
-    });
-    userInfo = tempUser[0];
-  }
+  // const setUserInfo = "";
+  // if (Auth.loggedIn() && !loading) {
+  //   let tempUser = [];
+  //   const loggedInUser = Auth.getProfile();
+  //   tempUser = data.users.filter((user) => {
+  //     return user.username === loggedInUser.data.username;
+  //   });
+  //   userInfo = tempUser[0];
+  // }
 
-  if (loading) {
+  if (loadingUsers, loadingPosts) {
     return (
       <div className="loading">
         <h1>Loading...hold on a sec.</h1>
       </div>
     );
   }
+
+
+
   return (
     // const [userInfo, setUserInfo] = useState({
     //   username: "default user",
@@ -54,7 +62,8 @@ function App() {
       <div className="mainSection">
         <div className="leftSection">
           <PostFeed
-            posts={posts}
+            dataPosts={dataPosts}
+            loadingPosts={loadingPosts}
             showPostInfo={showPostInfo}
             setShowPostInfo={setShowPostInfo}
           />

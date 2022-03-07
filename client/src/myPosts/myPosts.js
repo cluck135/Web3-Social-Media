@@ -1,9 +1,14 @@
 import React from "react";
 import { REMOVE_POST } from "../utils/mutations.js";
-import { useMutation } from "@apollo/client";
+import { QUERY_SINGLE_USER } from "../utils/queries.js";
+import { useMutation, useQuery} from "@apollo/client";
+import Auth from "../utils/auth.js";
 
 function MyPosts({ userPosts, username }) {
   const [deletePost] = useMutation(REMOVE_POST);
+
+  const currentUser = Auth.getProfile();
+  const {loading: loadingMe, data: dataMe} = useQuery(QUERY_SINGLE_USER, {variables: {username: currentUser.username}});
 
   const handleDelete = async (username, postId) => {
     const { data } = await deletePost({
@@ -15,6 +20,12 @@ function MyPosts({ userPosts, username }) {
     console.log(data);
     window.location.reload();
   };
+
+  if (loadingMe) {
+    <div className="loading"> 
+      Loading Your Posts Please Wait
+    </div>
+  }
   return (
     <div className="myPosts">
       <h2>My Posts</h2>
