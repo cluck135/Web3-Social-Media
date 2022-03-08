@@ -37,6 +37,7 @@ function Signup({ showSignup, setShowSignup, userInfo, setUserInfo}) {
       }})
       setShowSignup(false);
     } catch (e) {
+      alert("Please enter a username and password!");
       console.error(e);
     }
   };
