@@ -1,7 +1,7 @@
 import React from "react";
 
 function PostInfo({ showPostInfo, setShowPostInfo, dataPosts, currentPost }) {
-  const post = dataPosts[currentPost];
+  const post = dataPosts.posts[currentPost];
   if (!showPostInfo) {
     return null;
   }
