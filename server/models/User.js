@@ -21,8 +21,7 @@ const userSchema = new Schema({
   avatar: {
     type: String,
     required: false,
-    default:
-      "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg",
+    default: "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg",
   },
   openSeaAcctLink: {
     type: String,

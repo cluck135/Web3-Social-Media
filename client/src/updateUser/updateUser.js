@@ -3,7 +3,7 @@ import Cloudinary from "../cloudinary/cloudinary";
 import { useMutation } from "@apollo/client";
 import { UPDATE_USER } from "../utils/mutations.js";
 
-function Update({ showUpdate, setShowUpdate, userInfo }) {
+function Update({ showUpdate, setShowUpdate, userInfo, setUserInfo }) {
   const [url, setUrl] = useState("");
   const [update] = useMutation(UPDATE_USER);
   if (!showUpdate) {
@@ -12,19 +12,23 @@ function Update({ showUpdate, setShowUpdate, userInfo }) {
 
   const handleUpdate = async (userInfo, newAvatar) => {
     const newTagline =
-      document.getElementById("taglineInput").value || userInfo.tagline;
+      document.getElementById("taglineInput").value || userInfo.user.tagline;
     console.log(newTagline);
-    userInfo = { ...userInfo, tagline: newTagline };
+    await setUserInfo({
+      user: {               
+        ...userInfo.user,   
+        tagline: newTagline,
+        avatar: url               
+    }})
     try {
       const { data } = await update({
         variables: {
-          username: userInfo.username,
-          newTagline: userInfo.tagline,
-          newAvatar: url || userInfo.avatar,
+          username: userInfo.user.username,
+          newTagline: newTagline || userInfo.user.tagline,
+          newAvatar: url || userInfo.user.avatar,
         },
       });
       console.log(data);
-      window.location.reload();
     } catch (e) {
       console.error(e);
     }
@@ -41,7 +45,7 @@ function Update({ showUpdate, setShowUpdate, userInfo }) {
             type="text"
             id="taglineInput"
             name="tagline"
-            placeholder={userInfo.tagline}
+            placeholder={userInfo.user.tagline}
           />
           <Cloudinary userInfo={userInfo} url={url} setUrl={setUrl} />
         </div>
