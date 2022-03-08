@@ -14,7 +14,13 @@ const resolvers = {
       });
     },
     user: async (_, { username }) => {
-      return User.findOne({ username }).populate("posts");
+      return User.findOne({ username }).populate({
+        path: "posts",
+        populate: {
+          path: "nft",
+          model: "NFT",
+        },
+      });
     },
     posts: async (_, { username }) => {
       const params = username ? { username } : {};

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import Auth from "../utils/auth";
 
@@ -9,12 +9,16 @@ import Nft from "../nft/nft";
 function HeaderLoggedIn({ userInfo, setUserInfo }) {
 
   const currentUser = Auth.getProfile();
-  const { loading: loadingMe, data: dataMe } = useQuery(QUERY_SINGLE_USER, {variables: {username: currentUser.data.username}});
+  const { loading: loadingMe, data: dataMe, refetch: refetchHeaderUser } = useQuery(QUERY_SINGLE_USER, {variables: {username: currentUser.data.username}});
 
   const handleLogOut = async () => {
     localStorage.removeItem("id_token");
     window.location.reload();
   };
+
+  useEffect(() => {
+    refetchHeaderUser()
+  }, [userInfo]);
 
   if(loadingMe) {
     return(
@@ -26,8 +30,8 @@ function HeaderLoggedIn({ userInfo, setUserInfo }) {
 
   return(
     <ul>
-    <li>{userInfo.user.username}</li>
-    <li>{userInfo.user.posts.length} NFT's Created</li>
+    <li>{dataMe.user.username}</li>
+    <li>{dataMe.user.posts.length} NFT's Created</li>
     <li>
       <Nft username={userInfo.user.username} userInfo={userInfo} setUserInfo={setUserInfo}/>
     </li>

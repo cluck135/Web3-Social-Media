@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { useMutation, useQuery } from "@apollo/client";
-import { QUERY_SINGLE_USER } from "../utils/queries.js";
+import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../utils/mutations.js";
 import Signup from "../signup/signup.js";
-import NFT from "../nft/nft.js";
 import HeaderLoggedIn from "../headerLoggedIn/headerLoggedIn.js";
 import Auth from "../utils/auth.js";
 
@@ -30,7 +28,7 @@ function Header({ userInfo, setUserInfo, showSignup, setShowSignup }) {
         variables: { ...formState },
       });
       Auth.login(data.login.token);
-      setUserInfo({
+      await setUserInfo({
         user: {
           username: data.login.user.username,
           tagline: data.login.user.tagline,

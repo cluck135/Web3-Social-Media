@@ -29,12 +29,11 @@ export const QUERY_SINGLE_USER = gql`
       tagline
       avatar
       posts {
+        _id
         description
         nft {
+          _id
           image
-        }
-        comments {
-          text
         }
       }
     }

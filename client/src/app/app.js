@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import Header from "../header/header";
 import Footer from "../footer/footer";
 import UserInfo from "../userInfo/userInfo";
 import PostFeed from "../postFeed/postFeed";
-import { QUERY_USERS, GET_POSTS } from "../utils/queries";
+import { GET_POSTS } from "../utils/queries";
 import "../style.css";
 import Auth from "../utils/auth";
 import MyPosts from "../myPosts/myPosts";
 
-function App() { // CHANGE this to be HOME component and make APP componet which is parent of HOme containt a return
+function App() {
+                // CHANGE this to be HOME component and make APP componet which is parent of HOme containt a return
                 // That displays the loggin for the user if they are not logged in, Then once they are logged in 
                 // have HOME compnent display, make sure to keep setUserInfo inside of Home Component
   const [showUpdate, setShowUpdate] = useState(false);
