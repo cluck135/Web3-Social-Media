@@ -1,9 +1,8 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import PostInfo from "../postInfo/postInfo";
 
 function PostFeed({ userInfo, dataPosts, loadingPosts, refetchPosts, showPostInfo, setShowPostInfo }) {
-  let currentPost = 0;
-
+  const [currentPost, setCurrentPost] = useState(0)
   useEffect(() => {
     refetchPosts()
   }, [userInfo]);
@@ -27,7 +26,7 @@ function PostFeed({ userInfo, dataPosts, loadingPosts, refetchPosts, showPostInf
                 alt=""
                 onClick={() => {
                   setShowPostInfo(true);
-                  currentPost = index;
+                  setCurrentPost(index);
                 }}
               />
             </div>
