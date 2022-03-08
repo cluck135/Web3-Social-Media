@@ -4,6 +4,17 @@
 ## Description
 Web3 Social is a MERN stack application utilizing GraphQL that facilitates the creation of NFTs using the Solidity programming language that interacts with the Ethereum BlockChain. It allows users to see the most recently created NFTs and serve as a place to view their own NFTs after minting them.
 
+Web3 Social uses the following technologies:
+- MongoDB backend
+- Express.js
+- React.js
+- Node.js
+- JWT Authentication
+- Solidity programming language
+- Base64 Decoding
+- Cloudinary
+- SCSS
+
 ## Table of Contents
 * [Installation](#installation)
 * [Usage](#usage)
@@ -27,10 +38,13 @@ When users open the application, they are presented with the most recent NFTs mi
 
 Users can also upload an avatar to their profile and update their tagline. A count of their minted NFTs is also kept.
 
+Deployed Application: https://web3-social-media.herokuapp.com 
+
 User Flow Diagram:
 ![Screenshot](/assets/img/userFlow.png)
 
-Deployed Application: https://web3-social-media.herokuapp.com 
+Web3 Social Screenshot:
+![Screenshot](/assets/img/screenshot.png)
 
 ## Contribution
 Open

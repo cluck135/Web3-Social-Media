@@ -33,6 +33,7 @@ function Signup({ showSignup, setShowSignup }) {
       Auth.login(data.addUser.token);
       setShowSignup(false);
     } catch (e) {
+      alert("Please enter a username and password!");
       console.error(e);
     }
   };
