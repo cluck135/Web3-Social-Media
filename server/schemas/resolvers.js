@@ -14,7 +14,13 @@ const resolvers = {
       });
     },
     user: async (_, { username }) => {
-      return User.findOne({ username }).populate("posts").populate("nfts");
+      return User.findOne({ username }).populate({
+        path: "posts",
+        populate: {
+          path: "nft",
+          model: "NFT",
+        },
+      });
     },
     posts: async (_, { username }) => {
       const params = username ? { username } : {};
@@ -38,7 +44,14 @@ const resolvers = {
       return { token, user };
     },
     login: async (_, { username, password }) => {
-      const user = await User.findOne({ username });
+      const user = await User.findOne({ username }).populate({
+        path: "posts",
+        populate: {
+          path: "nft",
+          model: "NFT",
+        },
+      });
+
 
       if (!user) {
         throw new AuthenticationError(
@@ -52,7 +65,7 @@ const resolvers = {
         throw new AuthenticationError("Incorrect credentials");
       }
 
-      const token = signToken(user);
+      const token = signToken(user);      
 
       return { token, user };
     },

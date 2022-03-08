@@ -3,7 +3,7 @@ import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../utils/mutations";
 import Auth from "../utils/auth";
 
-function Signup({ showSignup, setShowSignup }) {
+function Signup({ showSignup, setShowSignup, userInfo, setUserInfo}) {
   const [formState, setFormState] = useState({
     username: "",
     password: "",
@@ -29,8 +29,12 @@ function Signup({ showSignup, setShowSignup }) {
       const { data } = await addUser({
         variables: { ...formState },
       });
-
       Auth.login(data.addUser.token);
+      await setUserInfo({
+        user: {               
+          ...userInfo.user,   
+          username: data.addUser.user.username                 
+      }})
       setShowSignup(false);
     } catch (e) {
       console.error(e);
