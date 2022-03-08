@@ -31,7 +31,6 @@ export const QUERY_SINGLE_USER = gql`
       posts {
         description
         nft {
-          comment
           image
         }
         comments {

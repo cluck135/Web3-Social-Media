@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
+import { QUERY_SINGLE_USER } from "../utils/queries.js";
 import { LOGIN_USER } from "../utils/mutations.js";
 import Signup from "../signup/signup.js";
 import NFT from "../nft/nft.js";
+import HeaderLoggedIn from "../headerLoggedIn/headerLoggedIn.js";
 import Auth from "../utils/auth.js";
 
-function Header({ userInfo, showSignup, setShowSignup }) {
+function Header({ userInfo, setUserInfo, showSignup, setShowSignup }) {
   const [formState, setFormState] = useState({ username: "", password: "" });
   const [login] = useMutation(LOGIN_USER);
 
@@ -27,8 +29,14 @@ function Header({ userInfo, showSignup, setShowSignup }) {
       const { data } = await login({
         variables: { ...formState },
       });
-
       Auth.login(data.login.token);
+      setUserInfo({
+        user: {
+          username: data.login.user.username,
+          tagline: data.login.user.tagline,
+          posts: data.login.user.posts,
+          avatar: data.login.user.avatar             
+      }})
     } catch (e) {
       alert("Invalid Username or Password");
       console.error(e);
@@ -40,10 +48,7 @@ function Header({ userInfo, showSignup, setShowSignup }) {
       password: "",
     });
   };
-  const handleLogOut = async () => {
-    localStorage.removeItem("id_token");
-    window.location.reload();
-  };
+
 
   return (
     <header className="header">
@@ -51,17 +56,9 @@ function Header({ userInfo, showSignup, setShowSignup }) {
         <h1>WEB 3 Social</h1>
       </div>
 
-      {Auth.loggedIn() ? (
-        <ul>
-          <li>{userInfo.username}</li>
-          <li>{userInfo.posts.length} NFT's Created</li>
-          <li>
-            <NFT username={userInfo.username}/>
-          </li>
-          <li>
-            <button onClick={handleLogOut}>Logout</button>
-          </li>
-        </ul>
+      {Auth.loggedIn() ? ( // Since useQuery needs a variable from Auth.getProfile() which can only be called when a user 
+                          // is logged in, we need to create a new component that only loads if a user is logged in <HeaderLoggedIn />
+      <HeaderLoggedIn userInfo={userInfo} setUserInfo={setUserInfo} />
       ) : (
         <ul>
           <form onSubmit={handleFormSubmit}>
@@ -87,7 +84,7 @@ function Header({ userInfo, showSignup, setShowSignup }) {
           </form>
           <li>
             <button onClick={() => setShowSignup(true)}>Signup</button>
-            <Signup showSignup={showSignup} setShowSignup={setShowSignup} />
+            <Signup showSignup={showSignup} setShowSignup={setShowSignup} userInfo={userInfo} setUserInfo={setUserInfo}/>
           </li>
         </ul>
       )}

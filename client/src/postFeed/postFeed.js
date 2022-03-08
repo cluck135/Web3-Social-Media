@@ -1,8 +1,13 @@
-import React from "react";
+import React, {useEffect} from "react";
 import PostInfo from "../postInfo/postInfo";
 
-function PostFeed({ dataPosts, loadingPosts, showPostInfo, setShowPostInfo }) {
+function PostFeed({ userInfo, dataPosts, loadingPosts, refetchPosts, showPostInfo, setShowPostInfo }) {
   let currentPost = 0;
+
+  useEffect(() => {
+    refetchPosts()
+  }, [userInfo]);
+
   if (loadingPosts) {
     return (
       <div>
@@ -13,7 +18,7 @@ function PostFeed({ dataPosts, loadingPosts, showPostInfo, setShowPostInfo }) {
     return (
       <div className="postFeed">
         <h2>Newest Posts</h2>
-        {dataPosts.slice(0, 10).map((post, index) => {
+        {dataPosts.posts.slice(0, 10).map((post, index) => {
           return (
             <div className="postDiv" key={post._id}>
               <h3>{post.description}</h3>

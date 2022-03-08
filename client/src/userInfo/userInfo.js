@@ -2,7 +2,7 @@ import React from "react";
 import Update from "../updateUser/updateUser";
 
 function userInfo(props) {
-  const { username, avatar, tagline, posts } = props.userInfo;
+  const { username, avatar, tagline, posts } = props.userInfo.user;
   const makeActive = () => {
     const accordion = document.querySelector(".accordionContent");
     if (accordion.style.display === "") {

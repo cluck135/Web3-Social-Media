@@ -14,7 +14,7 @@ const typeDefs = gql`
 
   type Post {
     _id: ID!
-    description: String!
+    description: String
     nft: NFT
     comments: [Comment]
     createdAt: String
